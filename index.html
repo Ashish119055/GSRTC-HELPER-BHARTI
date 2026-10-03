@@ -400,5 +400,26 @@ $("reset").onclick=()=>{if(confirm("તમારા બધા જવાબ અ�
 stats();build();
 })();
 </script>
+  <!-- ===== વિઝિટ કાઉન્ટર: આ આખો ભાગ પેજમાં </body> ની બરાબર ઉપર પેસ્ટ કરો ===== -->
+<div id="vc-box" style="text-align:center;font-size:14px;color:#667;margin:16px 0;font-family:inherit">
+  👁 કુલ મુલાકાત: <b id="vc-total">…</b> &nbsp;·&nbsp; આજે: <b id="vc-today">…</b>
+</div>
+<script>
+(function () {
+  var URL  = 'https://script.google.com/macros/s/AKfycbzq-NWMilN2-H003w-YM3MtRWFg2XIeBR0ynh68zqtlKoHac2uiY7JBilnPotXM2GAU/exec';   // Apps Script ની Web app લિંક
+  var PAGE = 'gsrtc-helper';             // દરેક પેજ માટે જુદું નામ
+  var key = 'vc_' + PAGE + '_' + new Date().toDateString(), first = true;
+  try { first = !localStorage.getItem(key); } catch (e) {}
+  fetch(URL + '?page=' + PAGE + '&n=' + (first ? 1 : 0))
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      try { if (first) localStorage.setItem(key, '1'); } catch (e) {}
+      document.getElementById('vc-total').textContent = Number(d.total).toLocaleString('en-IN');
+      document.getElementById('vc-today').textContent = Number(d.today).toLocaleString('en-IN');
+    })
+    .catch(function () { document.getElementById('vc-box').style.display = 'none'; });
+})();
+</script>
+<!-- ===== વિઝિટ કાઉન્ટર અહીં પૂરું ===== -->
 </body>
 </html>
